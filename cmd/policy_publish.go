@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pulumi/pulumi/pkg/engine"
 
@@ -32,11 +33,18 @@ import (
 
 func newPolicyPublishCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "publish <orgName>/<policyPackName>",
+		Use:   "publish <orgName>",
 		Args:  cmdutil.ExactArgs(1),
 		Short: "Publish resource policies to the Pulumi service",
 		Long:  "Publish resource policies to the Pulumi service",
 		Run: cmdutil.RunFunc(func(cmd *cobra.Command, args []string) error {
+
+			// HACK: We get the name of the Policy Pack from the Policy Pack itself as part of getting its
+			// metadata, so just use a stand-in name here instead.
+			if !strings.Contains(args[0], "/") {
+				args[0] = fmt.Sprintf("%s/<to-be-replaced-by-name-from-policy-pack-metadata>", args[0])
+			}
+
 			//
 			// Obtain current PolicyPack, tied to the Pulumi service backend.
 			//
