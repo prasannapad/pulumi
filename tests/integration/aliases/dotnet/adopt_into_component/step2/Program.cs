@@ -73,8 +73,8 @@ class Component4 : ComponentResource
                 {
                     Aliases =
                     {
-                        new Alias { Parent = null /* What's pulumi.rootStackResource in .NET? */ },
-                        new Alias { Parent = null /* What's pulumi.rootStackResource in .NET? */ }
+                        new Alias { NoParent = true },
+                        new Alias { NoParent = true }
                     },
                  },
                 options))
@@ -95,7 +95,7 @@ class Program
             new Component2("unparented", 
                 new ComponentResourceOptions
                 {
-                    Aliases = { new Alias { Parent = null /* What's pulumi.rootStackResource in .NET? */ } },
+                    Aliases = { new Alias { NoParent = true } },
                     Parent = comp2,
                 });
 
